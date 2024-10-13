@@ -40,5 +40,18 @@ namespace TravelToBackend.Controllers
             }
             return Ok(turi);
         }
+        [HttpGet("company/{turi_id}")]
+        [ProducesResponseType(200, Type = typeof(CompanyDto))]
+        [ProducesResponseType(400)]
+        public IActionResult get_company_by_turi([FromRoute] int turi_id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            return Ok(_turebiIepository.Get_Company_by_turi(turi_id));
+
+        }
+        
     }
 }

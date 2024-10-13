@@ -6,9 +6,9 @@ namespace TravelToBackend.Interfaces
     {
         List<TurebiDto> GetAll();
         TurebiDto Get_Turi(int id);
-        Company Get_Company_by_turi(int turi_id);
-        Company Get_Company_by_company_id(int company_id);
-        List<Company> Get_All_Companies();
+        CompanyDto Get_Company_by_turi(int turi_id);
+        CompanyDto Get_Company_by_company_id(int company_id);
+        List<CompanyDto> Get_All_Companies();
         void Create(TurebiDto turebi);
         void Update(int id, TurebiDto value);
         void Delete(int id);

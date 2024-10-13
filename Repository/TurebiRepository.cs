@@ -1,4 +1,6 @@
-﻿using TravelToBackend.Data;
+﻿using System.Runtime.InteropServices;
+using Microsoft.EntityFrameworkCore;
+using TravelToBackend.Data;
 using TravelToBackend.Dto;
 using TravelToBackend.Interfaces;
 using TravelToBackend.Mapper;
@@ -26,21 +28,20 @@ namespace TravelToBackend.Repository
             var turi = _context.Turebi.FirstOrDefault(x => x.id == id);
             return ToTurebiDtoMap.ToTurebiDto(turi);
         }
-        public List<Company> Get_All_Companies()
+        public List<CompanyDto> Get_All_Companies()
         {
-            throw new NotImplementedException();
+            return _context.Companiebi.Select(x=>ToCompanyDto.ToCompanydto(x)).ToList();
         }
-        public Company Get_Company_by_company_id(int company_id)
+        public CompanyDto Get_Company_by_company_id(int company_id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Company Get_Company_by_turi(int turi_id)
-        {
-            throw new NotImplementedException();
+            return ToCompanyDto.ToCompanydto(_context.Companiebi.FirstOrDefault(x => x.Company_Id == company_id));
         }
 
+        public CompanyDto Get_Company_by_turi(int turi_id)
+        {
+            return ToCompanyDto.ToCompanydto(_context.Turebi.Include("Company").FirstOrDefault(x=>x.id==turi_id).Company);
 
+        }
         public void Create(Turebi turebi)
         {
             throw new NotImplementedException();
