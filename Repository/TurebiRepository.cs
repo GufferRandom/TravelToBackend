@@ -1,30 +1,35 @@
-﻿using TravelToBackend.Interfaces;
+﻿using TravelToBackend.Data;
+using TravelToBackend.Dto;
+using TravelToBackend.Interfaces;
+using TravelToBackend.Mapper;
 using TravelToBackend.Models;
-
 namespace TravelToBackend.Repository
 {
     public class TurebiRepository : ITurebiIepository
     {
-        public void Create(Turebi turebi)
+        private readonly AppDataContext _context;
+        public TurebiRepository(AppDataContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public void Delete(int id)
+        public List<TurebiDto> GetAll()
         {
-            throw new NotImplementedException();
-        }
+            ;
+            var turebidto = _context.Turebi.
+                Select(x => ToTurebiDtoMap.ToTurebiDto(x)).ToList(); 
+            return turebidto;
 
-        public List<Turebi> GetAll()
+        }
+        public TurebiDto Get_Turi(int id)
         {
-            throw new NotImplementedException();
+            var turi = _context.Turebi.FirstOrDefault(x => x.id == id);
+            return ToTurebiDtoMap.ToTurebiDto(turi);
         }
-
         public List<Company> Get_All_Companies()
         {
             throw new NotImplementedException();
         }
-
         public Company Get_Company_by_company_id(int company_id)
         {
             throw new NotImplementedException();
@@ -35,12 +40,31 @@ namespace TravelToBackend.Repository
             throw new NotImplementedException();
         }
 
-        public Turebi Get_Turi(int id)
+
+        public void Create(Turebi turebi)
         {
             throw new NotImplementedException();
         }
 
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+       
+      
+
+       
         public void Update(int id, Turebi value)
+        {
+            throw new NotImplementedException();
+        }
+
+        void ITurebiIepository.Create(TurebiDto turebi)
+        {
+            throw new NotImplementedException();
+        }
+
+        void ITurebiIepository.Update(int id, TurebiDto value)
         {
             throw new NotImplementedException();
         }

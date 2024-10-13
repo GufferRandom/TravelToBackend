@@ -1,6 +1,8 @@
 
 using Microsoft.EntityFrameworkCore;
 using TravelToBackend.Data;
+using TravelToBackend.Interfaces;
+using TravelToBackend.Repository;
 
 namespace TravelToBackend
 {
@@ -20,6 +22,7 @@ namespace TravelToBackend
 
                 builder.Configuration.GetConnectionString("DefaultConnection"))
             );
+            builder.Services.AddTransient<ITurebiIepository,TurebiRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
