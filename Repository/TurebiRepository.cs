@@ -46,15 +46,10 @@ namespace TravelToBackend.Repository
         {
             throw new NotImplementedException();
         }
-
         public void Delete(int id)
         {
             throw new NotImplementedException();
         }
-       
-      
-
-       
         public void Update(int id, Turebi value)
         {
             throw new NotImplementedException();

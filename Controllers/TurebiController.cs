@@ -1,57 +1,70 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TravelToBackend.Interfaces;
 using TravelToBackend.Data;
-using TravelToBackend.Repository;
 using TravelToBackend.Models;
 using TravelToBackend.Dto;
+using System.Collections.Generic;
+using TravelToBackend.Repository;
+
 namespace TravelToBackend.Controllers
 {
     [ApiController]
-    [Route("/api/[controller]")]
-    public class TurebiController:ControllerBase    {
+    [Route("api/[controller]")]
+    public class TurebiController : ControllerBase
+    {
         private readonly AppDataContext _context;
-        private readonly ITurebiIepository _turebiIepository;
-        public TurebiController(AppDataContext context, ITurebiIepository turebiIepository)
+        private readonly ITurebiIepository _turebiRepository;
+
+        public TurebiController(AppDataContext context, ITurebiIepository turebiRepository)
         {
             _context = context;
-            _turebiIepository = turebiIepository;
+            _turebiRepository = turebiRepository;
         }
 
         [HttpGet]
-        [ProducesResponseType(200,Type=typeof(List<TurebiDto>))]
+        [ProducesResponseType(200, Type = typeof(List<TurebiDto>))]
         [ProducesResponseType(404)]
-        public IActionResult  get_turi()
+        public IActionResult GetTuri()
         {
-            var turi =_turebiIepository.GetAll();
-            if (!ModelState.IsValid) {
-                return BadRequest();
-            }
+            var turi = _turebiRepository.GetAll();
             return Ok(turi);
         }
-        [HttpGet]
-        [Route("{id}")]
+
+        [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(TurebiDto))]
         [ProducesResponseType(404)]
-        public IActionResult Get_Turi_By_Id(int id) { 
-        var turi= _turebiIepository.Get_Turi(id);
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+        public IActionResult GetTuriById(int id)
+        {
+            var turi = _turebiRepository.Get_Turi(id);
+            if (turi == null) return NotFound();
             return Ok(turi);
         }
-        [HttpGet("company/{turi_id}")]
-        [ProducesResponseType(200, Type = typeof(CompanyDto))]
-        [ProducesResponseType(400)]
-        public IActionResult get_company_by_turi([FromRoute] int turi_id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-            return Ok(_turebiIepository.Get_Company_by_turi(turi_id));
 
+        [HttpGet("companies")]
+        [ProducesResponseType(200, Type = typeof(List<CompanyDto>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetAllCompanies()
+        {
+            var companies = _turebiRepository.Get_All_Companies();
+            return Ok(companies);
         }
-        
+        [HttpGet("companies/{companyId}")]
+        [ProducesResponseType(200, Type = typeof(CompanyDto))]
+        [ProducesResponseType(404)]
+        public IActionResult GetCompanyById(int companyId)
+        {
+            var company = _turebiRepository.Get_Company_by_company_id(companyId);
+            if (company == null) return NotFound();
+            return Ok(company);
+        }
+        [HttpGet("companies/turi_id/{turiId}")]
+        [ProducesResponseType(200, Type = typeof(CompanyDto))]
+        [ProducesResponseType(404)]
+        public IActionResult GetCompanyByTuri(int turiId)
+        {
+            var company = _turebiRepository.Get_Company_by_turi(turiId);
+            if (company == null) return NotFound();
+            return Ok(company);
+        }
     }
 }
