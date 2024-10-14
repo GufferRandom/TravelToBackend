@@ -42,9 +42,13 @@ namespace TravelToBackend.Repository
             return ToCompanyDto.ToCompanydto(_context.Turebi.Include("Company").FirstOrDefault(x=>x.id==turi_id).Company);
 
         }
-        public void Create(Turebi turebi)
+        public Turebi Create(TurebiDto turebidto)
         {
-            throw new NotImplementedException();
+
+         var turi=ToTurebiFromDto.ToTurebi(turebidto);   
+         _context.Add(turi);
+            _context.SaveChanges();
+            return turi;
         }
         public void Delete(int id)
         {
@@ -55,11 +59,7 @@ namespace TravelToBackend.Repository
             throw new NotImplementedException();
         }
 
-        void ITurebiIepository.Create(TurebiDto turebi)
-        {
-            throw new NotImplementedException();
-        }
-
+       
         void ITurebiIepository.Update(int id, TurebiDto value)
         {
             throw new NotImplementedException();

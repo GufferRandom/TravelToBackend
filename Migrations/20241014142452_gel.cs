@@ -7,7 +7,7 @@
 namespace TravelToBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class Daviwyot : Migration
+    public partial class gel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,9 +18,9 @@ namespace TravelToBackend.Migrations
                 {
                     Company_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    owner = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
+                    owner = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     img_name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>

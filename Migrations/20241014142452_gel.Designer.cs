@@ -12,8 +12,8 @@ using TravelToBackend.Data;
 namespace TravelToBackend.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20241012045340_Daviwyot")]
-    partial class Daviwyot
+    [Migration("20241014142452_gel")]
+    partial class gel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,16 +34,19 @@ namespace TravelToBackend.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Company_Id"));
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("img_name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("owner")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Company_Id");
 

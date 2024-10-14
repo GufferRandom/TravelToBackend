@@ -5,6 +5,7 @@ using TravelToBackend.Models;
 using TravelToBackend.Dto;
 using System.Collections.Generic;
 using TravelToBackend.Repository;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace TravelToBackend.Controllers
 {
@@ -65,6 +66,14 @@ namespace TravelToBackend.Controllers
             var company = _turebiRepository.Get_Company_by_turi(turiId);
             if (company == null) return NotFound();
             return Ok(company);
+        }
+        [HttpPost("turi/create")]
+        [ProducesResponseType(200, Type = typeof(CompanyDto))]
+        [ProducesResponseType(404)]
+        public IActionResult Create([FromBody] TurebiDto turebi) {
+            if (!ModelState.IsValid) {  return BadRequest(); }
+
+        return Ok(_turebiRepository.Create(turebi));
         }
     }
 }

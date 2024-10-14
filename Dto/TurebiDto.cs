@@ -6,8 +6,6 @@ namespace TravelToBackend.Dto {
     public class TurebiDto
     {
 
-        [Key]
-        public int id { get; set; }
         [MaxLength(50, ErrorMessage = "Name was too large the max is 50")]
         public string Name { get; set; } = string.Empty;
         [Range(1, 900000)]
