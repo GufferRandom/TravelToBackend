@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TravelToBackend.Data;
 using TravelToBackend.Dto;
 using TravelToBackend.Interfaces;
@@ -28,6 +29,33 @@ namespace TravelToBackend.Repository
             var turi = _context.Turebi.FirstOrDefault(x => x.id == id);
             return ToTurebiDtoMap.ToTurebiDto(turi);
         }
+        public bool Turi_Exists(int id)
+        {
+            var exists = _context.Turebi.FirstOrDefault(x=>x.id == id);
+            if (exists != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool Company_exists_by_company_id(int? company_id)
+        {
+            var exists = _context.Turebi.FirstOrDefault(x=>x.Company_Id == company_id);
+            if (exists != null) { 
+            return true;
+            }
+            return false;
+        }
+
+        public bool Company_Exists_by_turi_id(int turi_id)
+        {
+            var exists = _context.Turebi.Include("Company").FirstOrDefault(x=>x.id==turi_id).Company;
+            if (exists != null) {
+                return true;
+            }
+            return false;
+        }
         public List<CompanyDto> Get_All_Companies()
         {
             return _context.Companiebi.Select(x=>ToCompanyDto.ToCompanydto(x)).ToList();
@@ -50,19 +78,31 @@ namespace TravelToBackend.Repository
             _context.SaveChanges();
             return turi;
         }
+        public TurebiDto Update(int id, TurebiDto value)
+        {
+            var turi = _context.Turebi.FirstOrDefault(x=>x.id==id);
+            turi.Name = value.Name;
+            turi.Price = value.Price;
+            turi.image_name= value.image_name;
+            if (Company_exists_by_company_id(value.Company_Id))
+            {
+                turi.Company_Id = value.Company_Id;
+
+            }
+            turi.Description = value.Description;
+            _context.Update(turi);
+            _context.SaveChanges();
+            return ToTurebiDtoMap.ToTurebiDto(turi);
+        }
+
         public void Delete(int id)
         {
             throw new NotImplementedException();
         }
-        public void Update(int id, Turebi value)
-        {
-            throw new NotImplementedException();
-        }
+     
 
        
-        void ITurebiIepository.Update(int id, TurebiDto value)
-        {
-            throw new NotImplementedException();
-        }
+    
+       
     }
 }
