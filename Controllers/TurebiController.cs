@@ -100,7 +100,7 @@ namespace TravelToBackend.Controllers
         {
             if (!ModelState.IsValid) { return BadRequest(); }
 
-            return Ok(_turebiRepository.Create(turebi));
+            return Ok(_turebiRepository.Create_Turi(turebi));
         }
         [HttpPut("turi/update/{turi_id}")]
         [ProducesResponseType(200, Type = typeof(TurebiDto))]
@@ -119,8 +119,23 @@ namespace TravelToBackend.Controllers
             {
                 return NotFound();
             }
-            return Ok(_turebiRepository.Update(turi_id, turebi));
+            return Ok(_turebiRepository.Update_Turi(turi_id, turebi));
 
+        }
+        [HttpDelete("turi/delete/{turi_id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(404)]
+        public IActionResult Delete_turi([FromRoute] int turi_id)
+        {
+            if (_turebiRepository.Turi_Exists(turi_id))
+            {
+                _turebiRepository.Delete_Turi(turi_id);
+                return StatusCode(200,$"the turi  {turi_id} was Deleted Successfully");
+            }
+            return BadRequest();
+            
         }
     }
 }

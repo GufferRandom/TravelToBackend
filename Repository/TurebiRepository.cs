@@ -70,7 +70,7 @@ namespace TravelToBackend.Repository
             return ToCompanyDto.ToCompanydto(_context.Turebi.Include("Company").FirstOrDefault(x=>x.id==turi_id).Company);
 
         }
-        public Turebi Create(TurebiDto turebidto)
+        public Turebi Create_Turi(TurebiDto turebidto)
         {
 
          var turi=ToTurebiFromDto.ToTurebi(turebidto);   
@@ -78,7 +78,7 @@ namespace TravelToBackend.Repository
             _context.SaveChanges();
             return turi;
         }
-        public TurebiDto Update(int id, TurebiDto value)
+        public TurebiDto Update_Turi(int id, TurebiDto value)
         {
             var turi = _context.Turebi.FirstOrDefault(x=>x.id==id);
             turi.Name = value.Name;
@@ -95,9 +95,11 @@ namespace TravelToBackend.Repository
             return ToTurebiDtoMap.ToTurebiDto(turi);
         }
 
-        public void Delete(int id)
+        public void Delete_Turi(int id)
         {
-            throw new NotImplementedException();
+           var turi = _context.Turebi.FirstOrDefault(x=>x.id==id);
+            _context.Remove(turi);
+            _context.SaveChanges();
         }
      
 

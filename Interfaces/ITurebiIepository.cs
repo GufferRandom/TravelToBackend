@@ -12,8 +12,8 @@ namespace TravelToBackend.Interfaces
         CompanyDto Get_Company_by_turi(int turi_id);
         CompanyDto Get_Company_by_company_id(int company_id);
         List<CompanyDto> Get_All_Companies();
-        Turebi Create(TurebiDto turebi);
-        TurebiDto Update(int id, TurebiDto value);
-        void Delete(int id);
+        Turebi Create_Turi(TurebiDto turebi);
+        TurebiDto Update_Turi(int id, TurebiDto value);
+        void Delete_Turi(int id);
     } 
 }
