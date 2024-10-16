@@ -94,15 +94,25 @@ namespace TravelToBackend.Controllers
             return Ok(company);
         }
         [HttpPost("turi/create")]
-        [ProducesResponseType(200, Type = typeof(CompanyDto))]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public IActionResult Create([FromBody] TurebiDto turebi)
-        {
-            if (!ModelState.IsValid) { return BadRequest(); }
+		public IActionResult Create([FromBody] TurebiDto turebi)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState); 
+			}
 
-            return Ok(_turebiRepository.Create_Turi(turebi));
-        }
-        [HttpPut("turi/update/{turi_id}")]
+			if (_turebiRepository.Turi_Exists_By_Object(turebi))
+			{
+				return Conflict("The turi exists; please enter a different one."); 
+			}
+
+			var turi = _turebiRepository.Create_Turi(turebi);
+			return Ok(turi);
+		}
+
+		[HttpPut("turi/update/{turi_id}")]
         [ProducesResponseType(200, Type = typeof(TurebiDto))]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
@@ -114,12 +124,14 @@ namespace TravelToBackend.Controllers
 
                 BadRequest(ModelState);
             }
-            var turi_get = _turebiRepository.Get_Turi(turi_id);
-            if (turi_get == null)
+
+            if (_turebiRepository.Update_Turi(turi_id, turebi) == false)
             {
                 return NotFound();
             }
-            return Ok(_turebiRepository.Update_Turi(turi_id, turebi));
+            _turebiRepository.Update_Turi(turi_id, turebi);
+
+			return Ok("Turebi Was updated Successfuly");
 
         }
         [HttpDelete("turi/delete/{turi_id}")]

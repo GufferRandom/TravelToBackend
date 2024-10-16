@@ -70,17 +70,21 @@ namespace TravelToBackend.Repository
             return ToCompanyDto.ToCompanydto(_context.Turebi.Include("Company").FirstOrDefault(x=>x.id==turi_id).Company);
 
         }
-        public Turebi Create_Turi(TurebiDto turebidto)
+        public TurebiDto Create_Turi(TurebiDto turebidto)
         {
 
-         var turi=ToTurebiFromDto.ToTurebi(turebidto);   
+         var turi=ToTurebiFromDto.ToTurebi(turebidto);
+            if (!Company_exists_by_company_id(turi.Company_Id)){
+                turi.Company_Id = 1;
+            }
          _context.Add(turi);
-            _context.SaveChanges();
-            return turi;
+         _context.SaveChanges();
+            return turebidto;
         }
-        public TurebiDto Update_Turi(int id, TurebiDto value)
+        public bool Update_Turi(int id, TurebiDto value)
         {
             var turi = _context.Turebi.FirstOrDefault(x=>x.id==id);
+            if (turi == null) { return false; }
             turi.Name = value.Name;
             turi.Price = value.Price;
             turi.image_name= value.image_name;
@@ -92,8 +96,9 @@ namespace TravelToBackend.Repository
             turi.Description = value.Description;
             _context.Update(turi);
             _context.SaveChanges();
-            return ToTurebiDtoMap.ToTurebiDto(turi);
+            return true;
         }
+
 
         public void Delete_Turi(int id)
         {
@@ -101,10 +106,24 @@ namespace TravelToBackend.Repository
             _context.Remove(turi);
             _context.SaveChanges();
         }
-     
 
-       
-    
-       
-    }
+		public Company Create_Company(CompanyDto company)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool Turi_Exists_By_Name(string name)
+		{
+			var turi = _context.Turebi.FirstOrDefault(x=>x.Name==name);
+            if (turi != null) {  return true; }
+            return false;
+		}
+
+		public bool Turi_Exists_By_Object(TurebiDto turebi)
+		{
+			if(turebi.Company_Id == 0) { turebi.Company_Id = 1; }
+			return _context.Turebi.Any(x => x.Name == turebi.Name && x.Price ==turebi.Price && x.Company_Id ==turebi.Company_Id);
+		}
+
+	}
 }
