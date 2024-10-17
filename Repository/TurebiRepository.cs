@@ -38,16 +38,6 @@ namespace TravelToBackend.Repository
             }
             return false;
         }
-
-        public bool Company_exists_by_company_id(int? company_id)
-        {
-            var exists = _context.Turebi.FirstOrDefault(x=>x.Company_Id == company_id);
-            if (exists != null) { 
-            return true;
-            }
-            return false;
-        }
-
         public bool Company_Exists_by_turi_id(int turi_id)
         {
             var exists = _context.Turebi.Include("Company").FirstOrDefault(x=>x.id==turi_id).Company;
@@ -56,15 +46,7 @@ namespace TravelToBackend.Repository
             }
             return false;
         }
-        public List<CompanyDto> Get_All_Companies()
-        {
-            return _context.Companiebi.Select(x=>ToCompanyDto.ToCompanydto(x)).ToList();
-        }
-        public CompanyDto Get_Company_by_company_id(int company_id)
-        {
-            return ToCompanyDto.ToCompanydto(_context.Companiebi.FirstOrDefault(x => x.Company_Id == company_id));
-        }
-
+       
         public CompanyDto Get_Company_by_turi(int turi_id)
         {
             return ToCompanyDto.ToCompanydto(_context.Turebi.Include("Company").FirstOrDefault(x=>x.id==turi_id).Company);
@@ -98,19 +80,12 @@ namespace TravelToBackend.Repository
             _context.SaveChanges();
             return true;
         }
-
-
         public void Delete_Turi(int id)
         {
            var turi = _context.Turebi.FirstOrDefault(x=>x.id==id);
             _context.Remove(turi);
             _context.SaveChanges();
         }
-
-		public Company Create_Company(CompanyDto company)
-		{
-			throw new NotImplementedException();
-		}
 
 		public bool Turi_Exists_By_Name(string name)
 		{
