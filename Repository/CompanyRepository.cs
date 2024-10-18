@@ -33,9 +33,9 @@ namespace TravelToBackend.Repository
         {
             return ToCompanyDto.ToCompanydto(_context.Companiebi.FirstOrDefault(x => x.Company_Id == company_id));
         }
-        public Company Create_Company(CompanyDto company)
+        public CompanyDto Create_Company(CompanyDto company)
         {
-            throw new NotImplementedException();
+            
         }
 
         public bool Delete(CompanyDto company)

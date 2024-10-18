@@ -11,9 +11,11 @@ namespace TravelToBackend.Repository
     public class TurebiRepository : ITurebiIepository
     {
         private readonly AppDataContext _context;
-        public TurebiRepository(AppDataContext context)
+        private readonly CompanyRepository _companyRepository;
+        public TurebiRepository(AppDataContext context,CompanyRepository companyRepository)
         {
             _context = context;
+            _companyRepository = companyRepository;
         }
 
         public List<TurebiDto> GetAll()
@@ -56,7 +58,7 @@ namespace TravelToBackend.Repository
         {
 
          var turi=ToTurebiFromDto.ToTurebi(turebidto);
-            if (!Company_exists_by_company_id(turi.Company_Id)){
+            if (!_companyRepository.Company_exists_by_company_id(turi.Company_Id)){
                 turi.Company_Id = 1;
             }
          _context.Add(turi);
